@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: novedades-app
+    env: python
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn app:app"
+    envVars:
+      - key: GOOGLE_CREDENTIALS_JSON
+        value: >
+          {"type":"service_account","project_id":"api-novedades","private_key_id":"0377b039496c3ea1ada7387ec728c724040b6faa","private_key":"-----BEGIN PRIVATE KEY-----\\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDx4F5mIcsCUoHR\\n...","client_email":"cuenta-api-novedades@api-novedades.iam.gserviceaccount.com","client_id":"115327942913541339542","auth_uri":"https://accounts.google.com/o/oauth2/auth","token_uri":"https://oauth2.googleapis.com/token","auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs","client_x509_cert_url":"https://www.googleapis.com/robot/v1/metadata/x509/cuenta-api-novedades%40api-novedades.iam.gserviceaccount.com","universe_domain":"googleapis.com"}

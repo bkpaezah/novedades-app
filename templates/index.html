@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Panel de Supervisión</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f6f8;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #333;
+      text-align: center;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: white;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #007BFF;
+      color: white;
+    }
+
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+
+    .btn {
+      padding: 6px 12px;
+      border: none;
+      color: white;
+      cursor: pointer;
+      border-radius: 4px;
+      font-weight: bold;
+    }
+
+    .btn.aprobar {
+      background-color: #28a745;
+    }
+
+    .btn.rechazar {
+      background-color: #dc3545;
+    }
+
+    .acciones {
+      display: flex;
+      gap: 8px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Novedades Pendientes</h1>
+  <table>
+    <thead>
+      <tr>
+        {% for h in headers %}
+        <th>{{ h }}</th>
+        {% endfor %}
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for fila, row in data %}
+      <tr>
+        {% for col in row %}
+        <td>{{ col }}</td>
+        {% endfor %}
+        <td class="acciones">
+          <form method="post" action="/actualizar_estado">
+            <input type="hidden" name="fila" value="{{ fila }}">
+            <input type="hidden" name="estado" value="Aprobado">
+            <button type="submit" class="btn aprobar">Aprobar</button>
+          </form>
+          <form method="post" action="/actualizar_estado">
+            <input type="hidden" name="fila" value="{{ fila }}">
+            <input type="hidden" name="estado" value="Rechazado">
+            <button type="submit" class="btn rechazar">Rechazar</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</body>
+</html>
