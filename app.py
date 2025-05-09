@@ -7,13 +7,23 @@ app = Flask(__name__)
 SPREADSHEET_ID = '1zF_8Kh7DDq03IZr4JdX1JdrVP2VZispMsb7JJ3JnLYE'
 SHEET_NAME = 'Novedades'
 RANGE = SHEET_NAME
-CREDENTIALS_FILE = 'credentials.json'
+
+import os
+import json
+from google.oauth2 import service_account
 
 def get_service():
-    creds = service_account.Credentials.from_service_account_file(
-        CREDENTIALS_FILE,
-        scopes=["https://www.googleapis.com/auth/spreadsheets"]
-    )
+    if 'GOOGLE_CREDENTIALS_JSON' in os.environ:
+        info = json.loads(os.environ['GOOGLE_CREDENTIALS_JSON'])
+        creds = service_account.Credentials.from_service_account_info(
+            info, scopes=["https://www.googleapis.com/auth/spreadsheets"]
+        )
+    else:
+        creds = service_account.Credentials.from_service_account_file(
+            'credentials.json',
+            scopes=["https://www.googleapis.com/auth/spreadsheets"]
+        )
+    
     return build('sheets', 'v4', credentials=creds)
 
 
